@@ -14,7 +14,7 @@
         justify-content: center;
         align-items: center;
         margin: 0;
-        background-color: black;
+        background-color: grey;
 
 
       }
@@ -23,21 +23,42 @@
         color: white;
       }
 
+      #gametitle {
+          display: flex;
+        justify-content: center;
+      }
+
+      #game-wrapper {
+          display: flex;
+          justify-content: center;
+      }
+
       #game-board {
         background-color: aliceblue;
         width: 90vmin;
         height: 90vmin;
         display: grid;
         grid-template-rows: repeat(21, 1fr);
+        
         grid-template-columns: repeat(21, 1fr);
+        border: 2px solid black;
+
+      }
+
+      #game-details {
+          padding-left: 20px;
       }
 
       .snake-body {
         background-color: blue;
+        border: 2px solid black;
+
       }
 
       .apple-body {
         background-color: red;
+        border: 2px solid black;
+
       }
 
     </style>
@@ -48,10 +69,25 @@
 
 
     <!-- <h1 id="header">SNAKE GAME</h1> -->
-    <div>
-      <p>SCORE: <p id="game-score">0</p></p>
-      <div id="game-board">
-      </div>
+    <div style="width: 100%; padding: 0 100px">
+        <div id="gametitle">
+            <h1>SNAKEGAME: MANUELL</h1>
+
+
+        </div>
+        <div id="game-wrapper">
+            <div id="game-board"></div>
+            <div id="game-details">
+                <div style="display: flex">                    
+                    <p>SCORE: <p id="game-score"> 0</p></p>
+                </div>
+
+
+
+            </div>
+
+
+        </div>
 
     </div>
 

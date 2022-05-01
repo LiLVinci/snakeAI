@@ -24,6 +24,7 @@ function main(currentTime) {
   checkIfLost()
   if (gameOver) {
     if (confirm('You lost. Press ok to restart.')) {
+      snakeSpeed = 0
       window.reload()
     }
     return 
