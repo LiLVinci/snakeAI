@@ -3,7 +3,7 @@ import checkUserChoice from "./userChoiceMethod.js"
 import randomAIChoice from "./randomAIChoice.js"
 
 let lastRenderTime = 0
-let snakeSpeed = 20
+let snakeSpeed = 2
 const gameBoard = document.getElementById("game-board")
 let snakeBody
 let appleExists = false
@@ -13,10 +13,11 @@ let gameScore = 0
 let gameOver = false
 window.arrowAlreadyPressed = false
 let started = false
+window.gridsize = 10
 
 
 function randomStart() { 
-  snakeBody = [{ x: Math.floor(Math.random()*17)+2, y: Math.floor(Math.random()*17)+2 }]
+  snakeBody = [{ x: Math.floor(Math.random()*(window.gridsize-3))+2, y: Math.floor(Math.random()*(window.gridsize-3))+2 }]
 
   const directions = [
     { x: 0, y: 1 },
@@ -85,8 +86,8 @@ function update() {
     appleExists = false
   }
   if (appleExists == false) {
-    let randX = Math.floor(Math.random()*20)+1
-    let randY = Math.floor(Math.random()*20)+1
+    let randX = Math.floor(Math.random()*window.gridsize)+1
+    let randY = Math.floor(Math.random()*window.gridsize)+1
     // HERE ADD THAT IF X OR Y IS INCLUDED IN THE SNAKEBODY CALUCALTE AGAIN
     applePosition = {x: randX, y: randY}
     appleExists = true
@@ -115,7 +116,7 @@ function draw(gameBoard) {
 
 
 function checkIfLost() {
-  if (snakeBody[0].x <= 0 || snakeBody[0].x > 20 || snakeBody[0].y <= 0 || snakeBody[0].y > 20) {
+  if (snakeBody[0].x <= 0 || snakeBody[0].x > window.gridsize || snakeBody[0].y <= 0 || snakeBody[0].y > window.gridsize) {
     gameOver = true
   }
   for (let i = snakeBody.length - 1; i > 0; i--) {

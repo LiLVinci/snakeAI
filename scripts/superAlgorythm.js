@@ -9,7 +9,7 @@ export default function superAlgrithmChoice(snakeBody) {
   let zicZacSteps = ["Counting Forward Moves", "Turning Left Once", "Turning Left Twice", "Counting Backward Moves", "Turning Right Once", "Turning Right Twice"]
 
   if (stepCount == 3) {
-    console.log(zicZacStepCount)
+    console.log(zicZacSteps[zicZacStepCount])
   } else {
     console.log(steps[stepCount])
   }
@@ -63,7 +63,7 @@ export default function superAlgrithmChoice(snakeBody) {
 }
 
 function atEnd (snakeBody) {
-  if (snakeBody[0].x == 1 || snakeBody[0].y == 1 || snakeBody[0].x == 20 || snakeBody[0].y == 20) {
+  if (snakeBody[0].x == 1 || snakeBody[0].y == 1 || snakeBody[0].x == window.gridsize || snakeBody[0].y == window.gridsize) {
     return true
   } else {
     return false
@@ -71,7 +71,7 @@ function atEnd (snakeBody) {
 }
 
 function atCorner (snakeBody) {
-  if ((snakeBody[0].x == 1 && snakeBody[0].y == 1) || (snakeBody[0].x == 1 && snakeBody[0].y == 20) || (snakeBody[0].x == 20 && snakeBody[0].y == 1) || (snakeBody[0].x == 20 && snakeBody[0].y == 20)) {
+  if ((snakeBody[0].x == 1 && snakeBody[0].y == 1) || (snakeBody[0].x == 1 && snakeBody[0].y == window.gridsize) || (snakeBody[0].x == window.gridsize && snakeBody[0].y == 1) || (snakeBody[0].x == 20 && snakeBody[0].y == window.gridsize)) {
     return true 
   } else {
     return false 
@@ -118,7 +118,7 @@ function findCorner(snakeBody) {
 }
 
 function countingMoves(snakeBody) {
-  if (moveCount < 16) { 
+  if (moveCount < window.gridsize-4) { 
     moveCount++
   } else {
     moveCount = 0
