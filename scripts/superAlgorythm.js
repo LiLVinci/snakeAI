@@ -22,7 +22,7 @@ export default function superAlgrithmChoice(snakeBody) {
     turnRight(snakeBody)
     stepCount++
   } else if (stepCount == 3) {
-    if (zicZacCount < 18) {
+    if (zicZacCount < window.gridsize-2) {
       if(zicZacStepCount == 0) {
         countingMoves(snakeBody)
       } else if (zicZacStepCount == 1) {
