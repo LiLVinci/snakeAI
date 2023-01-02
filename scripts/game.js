@@ -1,9 +1,10 @@
 import superAlgrithmChoice from "./superAlgorythm.js"
 import checkUserChoice from "./userChoiceMethod.js"
 import randomAIChoice from "./randomAIChoice.js"
+import { initiateAIModel, aIModelChoice, updateAIModel } from "./artificialIntelligence.js"
 
 let lastRenderTime = 0
-let snakeSpeed = 2
+let snakeSpeed = 1
 const gameBoard = document.getElementById("game-board")
 let snakeBody
 let appleExists = false
@@ -12,8 +13,12 @@ let newSegment = false
 let gameScore = 0
 let gameOver = false
 window.arrowAlreadyPressed = false
-let started = false
 window.gridsize = 10
+let runCount = 0
+let appleEaten = false
+
+initiateAIModel()
+randomStart()
 
 
 function randomStart() { 
@@ -30,20 +35,21 @@ function randomStart() {
 
 }
 
+function reset() {
+  snakeSpeed = 20
+  gameOver = false
+  appleExists = false
+  newSegment = false
+  gameScore = 0
+  runCount++
+  randomStart()
+  document.getElementById("game-score").innerHTML= gameScore
+  window.requestAnimationFrame(main)
+}
 
-function main(currentTime) {
-  if (started == false) {
-    randomStart()
-    started = true
-  }
-  checkIfLost()
-  if (gameOver) {
-    if (confirm('You lost. Press ok to restart.')) {
-      snakeSpeed = 0
-      window.reload()
-    }
-    return 
-  }
+
+async function main(currentTime) {
+
   window.requestAnimationFrame(main)
   if (checkSameFrame(currentTime)) return
   window.arrowAlreadyPressed = false
@@ -51,12 +57,39 @@ function main(currentTime) {
   // THIS IS WHERE THE RANDOM CHOICE IS CALLED
   // randomAIChoice()
 
-  superAlgrithmChoice(snakeBody)
+  // superAlgrithmChoice(snakeBody)
+  aIModelChoice(snakeBody, applePosition)
   // checkUserChoice()
 
   update()
   draw(gameBoard)
+  checkIfLost()
 
+
+  if (gameOver) {
+    await updateAIModel(snakeBody, applePosition, -1, gameOver);
+    console.log("UPDATING MODEL WITH REWARD -1")
+  } else if (appleEaten){
+    await updateAIModel(snakeBody, applePosition, +1, gameOver);
+    console.log("UPDATING MODEL WITH REWARD +1")
+  } else {
+    await updateAIModel(snakeBody, applePosition, -0.1, gameOver);
+    console.log("UPDATING MODEL WITH REWARD 0")
+  }
+
+  appleEaten = false
+  
+
+  if (gameOver) {
+    // if (confirm('You lost. Press ok to restart.')) {
+      snakeSpeed = 0
+      console.log("GAME OVER")
+      reset()
+      console.log("STARTING GAME: " + runCount)
+    // }
+  
+ 
+  }
 }
 
 function checkSameFrame(currentTime) {
@@ -79,6 +112,7 @@ function update() {
   snakeBody[0].y += window.inputDirection.y
   if (snakeBody[0].x == applePosition.x && snakeBody[0].y == applePosition.y) {
     console.log("APPLE EATEN")
+    appleEaten = true
     gameScore += 1
     snakeSpeed += 1
     document.getElementById("game-score").innerHTML= gameScore
